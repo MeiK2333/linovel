@@ -5,13 +5,22 @@ import { promises } from 'fs';
 require('dotenv').config();
 
 (async () => {
-  const { username, password } = await register();
-  console.log(username, password);
-  // 追加新的数据到文件中
-  const file = await promises.readFile('users.json');
-  const users: Array<{ username: string, password: string }> = JSON.parse(file.toString());
-  users.push({ username, password });
-  await promises.writeFile('users.json', JSON.stringify(users, null, 2));
+  for (let i = 0; i < 150; i++) {
+    try {
+      const { username, password } = await register();
+      console.log(username, password);
+      // 追加新的数据到文件中
+      const file = await promises.readFile('users.json');
+      const users: Array<{ username: string, password: string }> = JSON.parse(file.toString());
+      users.push({ username, password });
+      await promises.writeFile('users.json', JSON.stringify(users, null, 2));
+      // 隔五分钟到十分钟注册一个
+      const rand = Math.random() * 5 + 5;
+      await sleep(rand * 60 * 1000);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 })();
 
 async function requestService() {
@@ -39,7 +48,7 @@ async function getCode(objId: string, phone: string) {
   await request.get(`http://openapi.92jindou.com/api/specified?sid=${objId}&phone=${phone}&token=${token}`);
   // 循环等待验证码，最多尝试十次
   for (let i = 0; i < 10; i++) {
-    console.log(`${phone} 尝试获取验证码`);
+    // console.log(`${phone} 尝试获取验证码`);
     await sleep(6000);
     const codeRes = await request.get(`http://openapi.92jindou.com/api/getMessage?sid=${objId}&phone=${phone}&token=${token}`);
     if (codeRes[1] !== '未收到短信') {
@@ -47,7 +56,7 @@ async function getCode(objId: string, phone: string) {
       console.log(`${phone} 获取验证码成功：${code}`);
       break;
     }
-    console.log(`${phone} 未获取到验证码`)
+    // console.log(`${phone} 未获取到验证码`)
   }
   // 如果没能获取到验证码
   if (code === null) {
