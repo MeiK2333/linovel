@@ -15,7 +15,7 @@ export class User {
   }
 
   /**
-   * 发送登录验证码
+   * 发送登录验证码，没有注册的用户会自动注册
    */
   async sendLoginPhoneMsg() {
     const url = 'https://japari.qingzhiwenku.com/v3/send/loginPhoneMsg';
@@ -40,10 +40,11 @@ export class User {
     if (resp.data.code !== 0) {
       throw new Error(resp.data.msg);
     }
-    this.token = resp.data.token.token;
-    this.uid = resp.data.token.uid;
-    this.nick = resp.data.token.nick;
-    this.avatar = resp.data.token.avatar;
+    this.token = resp.data.data.token.token;
+    this.uid = resp.data.data.token.uid;
+    this.nick = resp.data.data.token.nick;
+    this.avatar = resp.data.data.token.avatar;
+    this.logged = true
   }
   /**
    * 使用账号密码登录
@@ -59,10 +60,11 @@ export class User {
     if (resp.data.code !== 0) {
       throw new Error(resp.data.msg);
     }
-    this.token = resp.data.token.token;
-    this.uid = resp.data.token.uid;
-    this.nick = resp.data.token.nick;
-    this.avatar = resp.data.token.avatar;
+    this.token = resp.data.data.token.token;
+    this.uid = resp.data.data.token.uid;
+    this.nick = resp.data.data.token.nick;
+    this.avatar = resp.data.data.token.avatar;
+    this.logged = true
   }
   /**
    * 发送重置密码的验证码
