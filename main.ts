@@ -1,4 +1,3 @@
-import { User } from "./src/user";
-
 (async () => {
+  console.log('Hello World!');
 })();
