@@ -107,5 +107,12 @@ async function register() {
   await user.resetPasswordByPhone(code, password);
   console.log(`${phone} 重置密码成功`);
 
+  // 修改用户名
+  await user.rename(phone);
+  await sleep(1000);
+  await user.sign();
+  await user.monthly();
+  console.log(`${phone} 每日签到 && 领取月票成功`);
+
   return { username, password }
 }

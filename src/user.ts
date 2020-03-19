@@ -94,4 +94,54 @@ export class User {
       throw new Error(resp.data.msg);
     }
   }
+  /**
+   * 修改用户昵称，需要审核后才会成功，此处仅提交修改请求
+   * @param newNickname 新的昵称
+   */
+  async rename(newNickname: string) {
+    const url = 'https://japari.qingzhiwenku.com/v3/my/updateProfile';
+    const data = { 'nick': newNickname };
+    const resp = await axios.post(url, data, {
+      headers: requestHeaders(data, this.token)
+    });
+    if (resp.data.code !== 0) {
+      throw new Error(resp.data.msg);
+    }
+  }
+  /**
+   * 每日签到
+   */
+  async sign(): Promise<{
+    total: number;
+    base: number;
+    extra: number;
+    day: number;
+  }> {
+    const url = 'https://japari.qingzhiwenku.com/v1/my/sign';
+    const data = {};
+    const resp = await axios.post(url, data, {
+      headers: requestHeaders(data, this.token)
+    });
+    if (resp.data.code !== 0) {
+      throw new Error(resp.data.msg);
+    }
+    return resp.data.data;
+  }
+  /**
+   * 领取月票
+   */
+  async monthly(): Promise<{
+    now: number;
+    plus: number;
+  }> {
+    const url = 'https://japari.qingzhiwenku.com/v1/my/getMonthlyTicket';
+    const data = {};
+    const resp = await axios.post(url, data, {
+      headers: requestHeaders(data, this.token)
+    });
+    if (resp.data.code !== 0) {
+      throw new Error(resp.data.msg);
+    }
+    return resp.data.data;
+  }
 }
