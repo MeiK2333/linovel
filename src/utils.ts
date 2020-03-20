@@ -1,5 +1,5 @@
-import * as crypto from 'crypto';
-import * as UserAgent from 'user-agents';
+import crypto from 'crypto';
+import UserAgent from 'user-agents';
 
 export function requestHeaders(data?: object, token?: string) {
   if (!data) {

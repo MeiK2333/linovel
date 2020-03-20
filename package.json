@@ -27,6 +27,7 @@
     "dotenv": "^8.2.0",
     "ts-node": "^8.6.2",
     "tslib": "^1.11.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "user-agents": "^1.0.559"
   }
 }
