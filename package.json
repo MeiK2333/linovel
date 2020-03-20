@@ -2,7 +2,11 @@
   "name": "linovel",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "typings": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +15,7 @@
     "url": "git+https://github.com/MeiK2333/linovel.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "MeiK2333",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/MeiK2333/linovel/issues"
@@ -22,6 +26,7 @@
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "ts-node": "^8.6.2",
+    "tslib": "^1.11.1",
     "typescript": "^3.8.3"
   }
 }
