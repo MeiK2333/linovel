@@ -105,12 +105,16 @@ export class User {
     return resp.data;
   }
   async info() {
-    const url = 'https://japari.qingzhiwenku.com/v1/user/info';
-    const data = { "uid": this.uid };
+    const url = 'https://japari.qingzhiwenku.com/v3/my/info';
+    const data = {
+      "profile": 1,
+      "detail_notify": 1,
+      "classic_notify": 1
+    };
     const resp = await linovelRequest(url, data, this);
-    this.uid = resp.data.user.id;
-    this.nick = resp.data.user.nick;
-    this.avatar = 'https://avatar.linovel.net/' + resp.data.user.avatar;
-    return resp.data.user;
+    this.uid = resp.data.info.id;
+    this.nick = resp.data.info.nick;
+    this.avatar = 'https://avatar.linovel.net/' + resp.data.info.avatar;
+    return resp.data.info;
   }
 }

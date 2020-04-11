@@ -182,15 +182,19 @@ var User = /** @class */ (function () {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        url = 'https://japari.qingzhiwenku.com/v1/user/info';
-                        data = { "uid": this.uid };
+                        url = 'https://japari.qingzhiwenku.com/v3/my/info';
+                        data = {
+                            "profile": 1,
+                            "detail_notify": 1,
+                            "classic_notify": 1
+                        };
                         return [4 /*yield*/, utils_1.linovelRequest(url, data, this)];
                     case 1:
                         resp = _a.sent();
-                        this.uid = resp.data.user.id;
-                        this.nick = resp.data.user.nick;
-                        this.avatar = 'https://avatar.linovel.net/' + resp.data.user.avatar;
-                        return [2 /*return*/, resp.data.user];
+                        this.uid = resp.data.info.id;
+                        this.nick = resp.data.info.nick;
+                        this.avatar = 'https://avatar.linovel.net/' + resp.data.info.avatar;
+                        return [2 /*return*/, resp.data.info];
                 }
             });
         });
