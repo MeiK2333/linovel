@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
-var axios_1 = tslib_1.__importDefault(require("axios"));
 var utils_1 = require("./utils");
 var User = /** @class */ (function () {
     function User(phone) {
@@ -14,20 +13,15 @@ var User = /** @class */ (function () {
      */
     User.prototype.sendLoginPhoneMsg = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var url, data, resp;
+            var url, data;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         url = 'https://japari.qingzhiwenku.com/v3/send/loginPhoneMsg';
                         data = { 'auto_reg': 1, 'input': this.phone };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data)];
                     case 1:
-                        resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -45,18 +39,13 @@ var User = /** @class */ (function () {
                     case 0:
                         url = 'https://japari.qingzhiwenku.com/v3/auth/login';
                         data = { 'input': this.phone, 'code': code, 'lgt': 'phone' };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data)];
                     case 1:
                         resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
-                        this.token = resp.data.data.token.token;
-                        this.uid = resp.data.data.token.uid;
-                        this.nick = resp.data.data.token.nick;
-                        this.avatar = resp.data.data.token.avatar;
+                        this.token = resp.data.token.token;
+                        this.uid = resp.data.token.uid;
+                        this.nick = resp.data.token.nick;
+                        this.avatar = 'https://avatar.linovel.net/' + resp.data.token.avatar;
                         this.logged = true;
                         return [2 /*return*/];
                 }
@@ -76,18 +65,13 @@ var User = /** @class */ (function () {
                     case 0:
                         url = 'https://japari.qingzhiwenku.com/v3/auth/login';
                         data = { 'input': username, 'password': password };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data)];
                     case 1:
                         resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
-                        this.token = resp.data.data.token.token;
-                        this.uid = resp.data.data.token.uid;
-                        this.nick = resp.data.data.token.nick;
-                        this.avatar = resp.data.data.token.avatar;
+                        this.token = resp.data.token.token;
+                        this.uid = resp.data.token.uid;
+                        this.nick = resp.data.token.nick;
+                        this.avatar = 'https://avatar.linovel.net/' + resp.data.token.avatar;
                         this.logged = true;
                         return [2 /*return*/];
                 }
@@ -99,20 +83,15 @@ var User = /** @class */ (function () {
      */
     User.prototype.sendForgetPwdPhoneMsg = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var url, data, resp;
+            var url, data;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         url = 'https://japari.qingzhiwenku.com/v3/send/forgetPwdPhoneMsg';
                         data = { 'input': this.phone };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data)];
                     case 1:
-                        resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -125,20 +104,15 @@ var User = /** @class */ (function () {
      */
     User.prototype.resetPasswordByPhone = function (code, newPassword) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var url, data, resp;
+            var url, data;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         url = 'https://japari.qingzhiwenku.com/v3/auth/resetPasswordByPhone';
                         data = { 'input': this.phone, 'password': newPassword, 'code': code };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data)];
                     case 1:
-                        resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -150,20 +124,15 @@ var User = /** @class */ (function () {
      */
     User.prototype.rename = function (newNickname) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var url, data, resp;
+            var url, data;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         url = 'https://japari.qingzhiwenku.com/v3/my/updateProfile';
                         data = { 'nick': newNickname };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data, this.token)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data, this)];
                     case 1:
-                        resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -180,15 +149,10 @@ var User = /** @class */ (function () {
                     case 0:
                         url = 'https://japari.qingzhiwenku.com/v1/my/sign';
                         data = {};
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data, this.token)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data, this)];
                     case 1:
                         resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
-                        return [2 /*return*/, resp.data.data];
+                        return [2 /*return*/, resp.data];
                 }
             });
         });
@@ -204,15 +168,29 @@ var User = /** @class */ (function () {
                     case 0:
                         url = 'https://japari.qingzhiwenku.com/v1/my/getMonthlyTicket';
                         data = {};
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data, this.token)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data, this)];
                     case 1:
                         resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
-                        return [2 /*return*/, resp.data.data];
+                        return [2 /*return*/, resp.data];
+                }
+            });
+        });
+    };
+    User.prototype.info = function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var url, data, resp;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        url = 'https://japari.qingzhiwenku.com/v1/user/info';
+                        data = { "uid": this.uid };
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data, this)];
+                    case 1:
+                        resp = _a.sent();
+                        this.uid = resp.data.user.id;
+                        this.nick = resp.data.user.nick;
+                        this.avatar = 'https://avatar.linovel.net/' + resp.data.user.avatar;
+                        return [2 /*return*/, resp.data.user];
                 }
             });
         });

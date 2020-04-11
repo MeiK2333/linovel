@@ -52,4 +52,5 @@ export declare class User {
         now: number;
         plus: number;
     }>;
+    info(): Promise<any>;
 }

@@ -3,6 +3,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var crypto_1 = tslib_1.__importDefault(require("crypto"));
 var user_agents_1 = tslib_1.__importDefault(require("user-agents"));
+var axios_1 = tslib_1.__importDefault(require("axios"));
+function linovelRequest(url, data, user) {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
+        var resp;
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, axios_1.default.post(url, data, {
+                        headers: user ? requestHeaders(data, user.token) : requestHeaders(data)
+                    })];
+                case 1:
+                    resp = _a.sent();
+                    if (resp.data.code !== 0) {
+                        throw new Error(resp.data.msg);
+                    }
+                    return [2 /*return*/, resp.data];
+            }
+        });
+    });
+}
+exports.linovelRequest = linovelRequest;
 function requestHeaders(data, token) {
     if (!data) {
         data = {};
@@ -27,4 +47,3 @@ function requestHeaders(data, token) {
     };
     return headers;
 }
-exports.requestHeaders = requestHeaders;

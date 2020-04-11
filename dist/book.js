@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
-var axios_1 = tslib_1.__importDefault(require("axios"));
 var utils_1 = require("./utils");
 var Book = /** @class */ (function () {
     function Book(id) {
@@ -21,14 +20,9 @@ var Book = /** @class */ (function () {
                             'bid': this.id,
                             'stat': 1
                         };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data)];
                     case 1:
                         resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
                         book = resp.data.data.book;
                         this.name = book.name;
                         this.about = book.about;
@@ -45,20 +39,15 @@ var Book = /** @class */ (function () {
      */
     Book.prototype.favorite = function (user) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var url, data, resp;
+            var url, data;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         url = 'https://japari.qingzhiwenku.com/v1/book/favorite';
                         data = { 'bid': this.id };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data, user.token)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data, user)];
                     case 1:
-                        resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -70,20 +59,15 @@ var Book = /** @class */ (function () {
      */
     Book.prototype.cancelFavorite = function (user) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var url, data, resp;
+            var url, data;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         url = 'https://japari.qingzhiwenku.com/v1/book/cancelFavorite';
                         data = { 'bid': this.id };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data, user.token)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data, user)];
                     case 1:
-                        resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -96,7 +80,7 @@ var Book = /** @class */ (function () {
      */
     Book.prototype.reward = function (user, value) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var url, data, resp;
+            var url, data;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -109,14 +93,9 @@ var Book = /** @class */ (function () {
                             'unit': 2,
                             'value': value
                         };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data, user.token)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data, user)];
                     case 1:
-                        resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -137,14 +116,9 @@ var Book = /** @class */ (function () {
                             'bid': this.id,
                             'stat': 1
                         };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: utils_1.requestHeaders(data, user.token)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data, user)];
                     case 1:
                         resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
                         return [2 /*return*/, resp.data.data.statistics.lastRead];
                 }
             });
@@ -166,14 +140,9 @@ var Book = /** @class */ (function () {
                             'bid': this.id,
                             'cid': chap.id
                         };
-                        return [4 /*yield*/, axios_1.default.post(url, data, {
-                                headers: user ? utils_1.requestHeaders(data, user.token) : utils_1.requestHeaders(data)
-                            })];
+                        return [4 /*yield*/, utils_1.linovelRequest(url, data, user)];
                     case 1:
                         resp = _a.sent();
-                        if (resp.data.code !== 0) {
-                            throw new Error(resp.data.msg);
-                        }
                         return [2 /*return*/, resp.data];
                 }
             });

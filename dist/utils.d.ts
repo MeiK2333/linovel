@@ -1,9 +1,2 @@
-export declare function requestHeaders(data?: object, token?: string): {
-    'X-SIGN-TIME': string;
-    'X-TOKEN': string;
-    'X-SIGN': string;
-    'X-JSON-PAYLOAD': string;
-    'X-DEVICE': string;
-    'X-APP-REV': string;
-    'User-Agent': any;
-};
+import { User } from './user';
+export declare function linovelRequest(url: string, data?: object, user?: User): Promise<any>;
