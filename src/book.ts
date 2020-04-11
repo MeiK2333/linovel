@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { requestHeaders } from './utils';
+import { linovelRequest } from './utils';
 import { User } from './user';
 
 interface BookChap {
@@ -39,12 +39,7 @@ export class Book {
       'bid': this.id,
       'stat': 1
     };
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
+    const resp = await linovelRequest(url, data);
     const book = resp.data.data.book;
     this.name = book.name;
     this.about = book.about;
@@ -58,12 +53,7 @@ export class Book {
   async favorite(user: User) {
     const url = 'https://japari.qingzhiwenku.com/v1/book/favorite';
     const data = { 'bid': this.id };
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data, user.token)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
+    await linovelRequest(url, data, user);
   }
   /**
    * 取消收藏书籍
@@ -72,12 +62,7 @@ export class Book {
   async cancelFavorite(user: User) {
     const url = 'https://japari.qingzhiwenku.com/v1/book/cancelFavorite';
     const data = { 'bid': this.id };
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data, user.token)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
+    await linovelRequest(url, data, user);
   }
   /**
    * 使用墨水为书籍进行应援
@@ -94,12 +79,7 @@ export class Book {
       'unit': 2,  // 墨水应援
       'value': value
     }
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data, user.token)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
+    await linovelRequest(url, data, user);
   }
   /**
    * 获取用户上次阅读到的地方
@@ -111,12 +91,7 @@ export class Book {
       'bid': this.id,
       'stat': 1
     };
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data, user.token)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
+    const resp = await linovelRequest(url, data, user);
     return resp.data.data.statistics.lastRead as number;
   }
   /**
@@ -130,12 +105,7 @@ export class Book {
       'bid': this.id,
       'cid': chap.id
     }
-    const resp = await axios.post(url, data, {
-      headers: user ? requestHeaders(data, user.token) : requestHeaders(data)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
+    const resp = await linovelRequest(url, data, user);
     return resp.data as string;
   }
 }

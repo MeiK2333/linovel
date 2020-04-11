@@ -1,7 +1,19 @@
 import crypto from 'crypto';
 import UserAgent from 'user-agents';
+import { User } from './user';
+import axios from 'axios';
 
-export function requestHeaders(data?: object, token?: string) {
+export async function linovelRequest(url: string, data?: object, user?: User) {
+  const resp = await axios.post(url, data, {
+    headers: user ? requestHeaders(data, user.token) : requestHeaders(data)
+  });
+  if (resp.data.code !== 0) {
+    throw new Error(resp.data.msg);
+  }
+  return resp.data;
+}
+
+function requestHeaders(data?: object, token?: string) {
   if (!data) {
     data = {};
   }

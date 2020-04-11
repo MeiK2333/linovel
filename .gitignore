@@ -106,3 +106,4 @@ typings/
 .vscode
 package-lock.json
 users.json
+app.ts

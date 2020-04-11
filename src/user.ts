@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { requestHeaders } from './utils';
+import { linovelRequest } from './utils';
 
 export class User {
   phone: string
@@ -20,30 +20,20 @@ export class User {
   async sendLoginPhoneMsg() {
     const url = 'https://japari.qingzhiwenku.com/v3/send/loginPhoneMsg';
     const data = { 'auto_reg': 1, 'input': this.phone };
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
+    await linovelRequest(url, data);
   }
   /**
    * 使用验证码登录
    * @param code 验证码
    */
   async loginByPhoneMsg(code: string) {
-    const url = 'https://japari.qingzhiwenku.com/v3/auth/login'
-    const data = { 'input': this.phone, 'code': code, 'lgt': 'phone' }
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
-    this.token = resp.data.data.token.token;
-    this.uid = resp.data.data.token.uid;
-    this.nick = resp.data.data.token.nick;
-    this.avatar = resp.data.data.token.avatar;
+    const url = 'https://japari.qingzhiwenku.com/v3/auth/login';
+    const data = { 'input': this.phone, 'code': code, 'lgt': 'phone' };
+    const resp = await linovelRequest(url, data);
+    this.token = resp.data.token.token;
+    this.uid = resp.data.token.uid;
+    this.nick = resp.data.token.nick;
+    this.avatar = 'https://avatar.linovel.net/' + resp.data.token.avatar;
     this.logged = true
   }
   /**
@@ -54,16 +44,11 @@ export class User {
   async login(username: string, password: string) {
     const url = 'https://japari.qingzhiwenku.com/v3/auth/login';
     const data = { 'input': username, 'password': password };
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
-    this.token = resp.data.data.token.token;
-    this.uid = resp.data.data.token.uid;
-    this.nick = resp.data.data.token.nick;
-    this.avatar = resp.data.data.token.avatar;
+    const resp = await linovelRequest(url, data);
+    this.token = resp.data.token.token;
+    this.uid = resp.data.token.uid;
+    this.nick = resp.data.token.nick;
+    this.avatar = 'https://avatar.linovel.net/' + resp.data.token.avatar;
     this.logged = true
   }
   /**
@@ -72,12 +57,7 @@ export class User {
   async sendForgetPwdPhoneMsg() {
     const url = 'https://japari.qingzhiwenku.com/v3/send/forgetPwdPhoneMsg';
     const data = { 'input': this.phone };
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
+    await linovelRequest(url, data);
   }
   /**
    * 使用验证码重置密码
@@ -87,12 +67,7 @@ export class User {
   async resetPasswordByPhone(code: string, newPassword: string) {
     const url = 'https://japari.qingzhiwenku.com/v3/auth/resetPasswordByPhone';
     const data = { 'input': this.phone, 'password': newPassword, 'code': code };
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
+    await linovelRequest(url, data);
   }
   /**
    * 修改用户昵称，需要审核后才会成功，此处仅提交修改请求
@@ -101,12 +76,7 @@ export class User {
   async rename(newNickname: string) {
     const url = 'https://japari.qingzhiwenku.com/v3/my/updateProfile';
     const data = { 'nick': newNickname };
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data, this.token)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
+    await linovelRequest(url, data, this);
   }
   /**
    * 每日签到
@@ -119,13 +89,8 @@ export class User {
   }> {
     const url = 'https://japari.qingzhiwenku.com/v1/my/sign';
     const data = {};
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data, this.token)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
-    return resp.data.data;
+    const resp = await linovelRequest(url, data, this);
+    return resp.data;
   }
   /**
    * 领取月票
@@ -136,12 +101,16 @@ export class User {
   }> {
     const url = 'https://japari.qingzhiwenku.com/v1/my/getMonthlyTicket';
     const data = {};
-    const resp = await axios.post(url, data, {
-      headers: requestHeaders(data, this.token)
-    });
-    if (resp.data.code !== 0) {
-      throw new Error(resp.data.msg);
-    }
-    return resp.data.data;
+    const resp = await linovelRequest(url, data, this);
+    return resp.data;
+  }
+  async info() {
+    const url = 'https://japari.qingzhiwenku.com/v1/user/info';
+    const data = { "uid": this.uid };
+    const resp = await linovelRequest(url, data, this);
+    this.uid = resp.data.user.id;
+    this.nick = resp.data.user.nick;
+    this.avatar = 'https://avatar.linovel.net/' + resp.data.user.avatar;
+    return resp.data.user;
   }
 }
