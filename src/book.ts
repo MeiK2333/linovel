@@ -40,7 +40,7 @@ export class Book {
       'stat': 1
     };
     const resp = await linovelRequest(url, data);
-    const book = resp.data.data.book;
+    const book = resp.data.book;
     this.name = book.name;
     this.about = book.about;
     this.words = book.words;

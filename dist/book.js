@@ -23,7 +23,7 @@ var Book = /** @class */ (function () {
                         return [4 /*yield*/, utils_1.linovelRequest(url, data)];
                     case 1:
                         resp = _a.sent();
-                        book = resp.data.data.book;
+                        book = resp.data.book;
                         this.name = book.name;
                         this.about = book.about;
                         this.words = book.words;
